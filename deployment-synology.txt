@@ -1,0 +1,134 @@
+ÉTAPES DE DÉPLOIEMENT APPLICATION SPRING BOOT SUR SYNOLOGY NAS
+================================================================
+
+PRÉREQUIS
+---------
+- NAS Synology avec DSM 7.0+
+- Accès administrateur au NAS
+- Application Spring Boot buildée (JAR disponible)
+
+ÉTAPE 1: PRÉPARATION DES FICHIERS
+----------------------------------
+1. Builder l'application:
+   ./mvnw clean package -DskipTests
+
+2. Vérifier la présence des fichiers:
+   - Dockerfile (créé)
+   - target/teacher-0.0.1-SNAPSHOT.jar (généré par Maven)
+
+ÉTAPE 2: INSTALLATION SUR SYNOLOGY
+-----------------------------------
+1. Sur le NAS Synology:
+   - Aller dans Package Center
+   - Installer "Container Manager" (ex-Docker)
+   - Redémarrer si nécessaire
+
+2. Activer SSH (optionnel mais recommandé):
+   - Panneau de contrôle → Terminal & SNMP
+   - Activer service SSH
+
+ÉTAPE 3: TRANSFERT DES FICHIERS
+-------------------------------
+1. Via File Station ou SSH/SCP:
+   - Créer un dossier: /volume1/docker/teacher
+   - Copier les fichiers:
+     * Dockerfile
+     * target/teacher-0.0.1-SNAPSHOT.jar
+
+ÉTAPE 4: CONSTRUCTION DE L'IMAGE DOCKER
+----------------------------------------
+1. Se connecter en SSH au NAS:
+   ssh admin@[IP_NAS]
+
+2. Naviguer vers le dossier:
+   cd /volume1/docker/teacher
+
+3. Builder l'image Docker:
+   docker build -t teacher-app .
+
+ÉTAPE 5: LANCEMENT DU CONTAINER
+-------------------------------
+1. Démarrer le container:
+   docker run -d -p 8080:8080 --name teacher teacher-app
+
+2. Vérifier le statut:
+   docker ps
+
+3. Voir les logs (si nécessaire):
+   docker logs teacher
+
+ÉTAPE 6: CONFIGURATION RÉSEAU
+-----------------------------
+1. Ouvrir le pare-feu:
+   - Panneau de contrôle → Sécurité → Pare-feu
+   - Créer une règle pour le port 8080
+   - Autoriser les connexions
+
+2. Test d'accès:
+   - http://[IP_NAS]:8080
+   - Depuis l'extérieur: http://[IP_PUBLIQUE]:8080
+
+ÉTAPE 7: GESTION VIA CONTAINER MANAGER (OPTIONNEL)
+---------------------------------------------------
+1. Interface graphique:
+   - Ouvrir Container Manager
+   - Onglet "Container"
+   - Gérer l'application (start/stop/restart)
+
+2. Monitoring:
+   - Voir les logs via l'interface
+   - Surveiller les ressources utilisées
+
+COMMANDES UTILES
+----------------
+# Arrêter le container
+docker stop teacher
+
+# Redémarrer le container
+docker start teacher
+
+# Supprimer le container
+docker rm teacher
+
+# Supprimer l'image
+docker rmi teacher-app
+
+# Reconstruire après modification
+docker build -t teacher-app . --no-cache
+
+ACCÈS À L'APPLICATION
+---------------------
+URL locale: http://[IP_NAS]:8080
+URL externe: http://[IP_PUBLIQUE]:8080 (si port forwarding configuré)
+
+Endpoints disponibles:
+- http://[IP_NAS]:8080/ (endpoint principal)
+- http://[IP_NAS]:8080/h2-console (console H2 pour développement)
+
+NOTES IMPORTANTES
+-----------------
+- Base de données H2 en mémoire = données perdues au redémarrage
+- Pour la production, configurer une vraie base de données
+- Sauvegarder régulièrement la configuration Docker
+- Surveiller les logs pour les erreurs
+
+TROUBLESHOOTING
+---------------
+1. Container ne démarre pas:
+   - Vérifier les logs: docker logs teacher
+   - Vérifier le port 8080 libre: netstat -tlnp | grep 8080
+
+2. Application inaccessible:
+   - Vérifier le pare-feu Synology
+   - Vérifier la configuration réseau
+   - Tester depuis le réseau local d'abord
+
+3. Performance lente:
+   - Surveiller les ressources dans Container Manager
+   - Ajuster les limites de mémoire si nécessaire
+
+FICHIERS CRÉÉS
+--------------
+- Dockerfile (configuration Docker)
+- target/teacher-0.0.1-SNAPSHOT.jar (application packagée)
+- deployment-synology.txt (ce fichier d'aide)

@@ -1,0 +1,220 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< me.synology.techrevive:teacher >-------------------
+[INFO] Building teacher 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.4:run (default-cli) > test-compile @ teacher >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ teacher ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.0:compile (default-compile) @ teacher ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 3 source files with javac [debug parameters release 21] to target/classes
+[WARNING] /Users/ihssanayi/teacher/src/main/java/me/synology/techrevive/teacher/config/SecurityConfig.java:[25,17] frameOptions() in org.springframework.security.config.annotation.web.configurers.HeadersConfigurer has been deprecated and marked for removal
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ teacher ---
+[INFO] skip non existing resourceDirectory /Users/ihssanayi/teacher/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.0:testCompile (default-testCompile) @ teacher ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] <<< spring-boot:3.5.4:run (default-cli) < test-compile @ teacher <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.4:run (default-cli) @ teacher ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.4)
+
+2025-08-04T10:43:22.504+01:00  INFO 52134 --- [teacher] [  restartedMain] m.s.t.teacher.TeacherApplication         : Starting TeacherApplication using Java 21.0.8 with PID 52134 (/Users/ihssanayi/teacher/target/classes started by ihssanayi in /Users/ihssanayi/teacher)
+2025-08-04T10:43:22.505+01:00  INFO 52134 --- [teacher] [  restartedMain] m.s.t.teacher.TeacherApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-08-04T10:43:22.525+01:00  INFO 52134 --- [teacher] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-08-04T10:43:22.525+01:00  INFO 52134 --- [teacher] [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-08-04T10:43:22.796+01:00  INFO 52134 --- [teacher] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-04T10:43:22.805+01:00  INFO 52134 --- [teacher] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2025-08-04T10:43:23.040+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-08-04T10:43:23.046+01:00  INFO 52134 --- [teacher] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-08-04T10:43:23.046+01:00  INFO 52134 --- [teacher] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-08-04T10:43:23.061+01:00  INFO 52134 --- [teacher] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-08-04T10:43:23.061+01:00  INFO 52134 --- [teacher] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 536 ms
+2025-08-04T10:43:23.145+01:00  INFO 52134 --- [teacher] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-04T10:43:23.167+01:00  INFO 52134 --- [teacher] [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-08-04T10:43:23.180+01:00  INFO 52134 --- [teacher] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-08-04T10:43:23.287+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-04T10:43:23.300+01:00  INFO 52134 --- [teacher] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-08-04T10:43:23.378+01:00  INFO 52134 --- [teacher] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:teacherdb user=SA
+2025-08-04T10:43:23.379+01:00  INFO 52134 --- [teacher] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-08-04T10:43:23.391+01:00  WARN 52134 --- [teacher] [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-04T10:43:23.398+01:00  INFO 52134 --- [teacher] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-04T10:43:23.535+01:00  INFO 52134 --- [teacher] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-04T10:43:23.537+01:00  INFO 52134 --- [teacher] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-04T10:43:23.564+01:00  WARN 52134 --- [teacher] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-04T10:43:23.661+01:00  WARN 52134 --- [teacher] [  restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 0dd6175c-bc15-46a6-8055-a1023ac0c42c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-08-04T10:43:23.665+01:00  INFO 52134 --- [teacher] [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-08-04T10:43:23.773+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:teacherdb'
+2025-08-04T10:43:23.805+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-08-04T10:43:23.818+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-08-04T10:43:23.823+01:00  INFO 52134 --- [teacher] [  restartedMain] m.s.t.teacher.TeacherApplication         : Started TeacherApplication in 1.466 seconds (process running for 1.622)
+2025-08-04T10:44:22.351+01:00  INFO 52134 --- [teacher] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-04T10:44:22.351+01:00  INFO 52134 --- [teacher] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-08-04T10:44:22.352+01:00  INFO 52134 --- [teacher] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-08-04T11:45:23.956+01:00  WARN 52134 --- [teacher] [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=54m30s354ms).
+2025-08-04T11:48:17.776+01:00  INFO 52134 --- [teacher] [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 3 class path changes (0 additions, 0 deletions, 3 modifications)
+2025-08-04T11:48:17.778+01:00  INFO 52134 --- [teacher] [       Thread-5] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-04T11:48:17.783+01:00  INFO 52134 --- [teacher] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-08-04T11:48:17.786+01:00  INFO 52134 --- [teacher] [       Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-04T11:48:17.790+01:00  WARN 52134 --- [teacher] [       Thread-5] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de données est déjà fermée (pour désactiver la fermeture automatique à l'arrêt de la VM, ajoutez "; DB_CLOSE_ON_EXIT = FALSE" à l'URL db)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-232]
+2025-08-04T11:48:17.790+01:00  INFO 52134 --- [teacher] [       Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-08-04T11:48:17.791+01:00  INFO 52134 --- [teacher] [       Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.4)
+
+2025-08-04T11:48:17.834+01:00  INFO 52134 --- [teacher] [  restartedMain] m.s.t.teacher.TeacherApplication         : Starting TeacherApplication using Java 21.0.8 with PID 52134 (/Users/ihssanayi/teacher/target/classes started by ihssanayi in /Users/ihssanayi/teacher)
+2025-08-04T11:48:17.834+01:00  INFO 52134 --- [teacher] [  restartedMain] m.s.t.teacher.TeacherApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-08-04T11:48:17.905+01:00  INFO 52134 --- [teacher] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-04T11:48:17.907+01:00  INFO 52134 --- [teacher] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2025-08-04T11:48:17.965+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-08-04T11:48:17.966+01:00  INFO 52134 --- [teacher] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-08-04T11:48:17.966+01:00  INFO 52134 --- [teacher] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-08-04T11:48:17.970+01:00  INFO 52134 --- [teacher] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-08-04T11:48:17.971+01:00  INFO 52134 --- [teacher] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 136 ms
+2025-08-04T11:48:17.993+01:00  INFO 52134 --- [teacher] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-04T11:48:17.994+01:00  INFO 52134 --- [teacher] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-08-04T11:48:17.998+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-04T11:48:17.999+01:00  INFO 52134 --- [teacher] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-08-04T11:48:18.000+01:00  INFO 52134 --- [teacher] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection conn10: url=jdbc:h2:mem:teacherdb user=SA
+2025-08-04T11:48:18.000+01:00  INFO 52134 --- [teacher] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-08-04T11:48:18.000+01:00  WARN 52134 --- [teacher] [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-04T11:48:18.000+01:00  INFO 52134 --- [teacher] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-04T11:48:18.009+01:00  INFO 52134 --- [teacher] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-04T11:48:18.009+01:00  INFO 52134 --- [teacher] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-04T11:48:18.027+01:00  WARN 52134 --- [teacher] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-04T11:48:18.065+01:00  WARN 52134 --- [teacher] [  restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 54ae02da-4f6c-4784-ba45-028a8829fc10
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-08-04T11:48:18.065+01:00  INFO 52134 --- [teacher] [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-08-04T11:48:18.113+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:teacherdb'
+2025-08-04T11:48:18.124+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-08-04T11:48:18.129+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-08-04T11:48:18.132+01:00  INFO 52134 --- [teacher] [  restartedMain] m.s.t.teacher.TeacherApplication         : Started TeacherApplication in 0.309 seconds (process running for 655.534)
+2025-08-04T11:48:18.133+01:00  INFO 52134 --- [teacher] [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-08-04T11:53:24.165+01:00  INFO 52134 --- [teacher] [   File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 4 class path changes (0 additions, 0 deletions, 4 modifications)
+2025-08-04T11:53:24.167+01:00  INFO 52134 --- [teacher] [       Thread-7] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-04T11:53:24.169+01:00  INFO 52134 --- [teacher] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-08-04T11:53:24.170+01:00  INFO 52134 --- [teacher] [       Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-04T11:53:24.171+01:00  WARN 52134 --- [teacher] [       Thread-7] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de données est déjà fermée (pour désactiver la fermeture automatique à l'arrêt de la VM, ajoutez "; DB_CLOSE_ON_EXIT = FALSE" à l'URL db)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-232]
+2025-08-04T11:53:24.172+01:00  INFO 52134 --- [teacher] [       Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-08-04T11:53:24.172+01:00  INFO 52134 --- [teacher] [       Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.4)
+
+2025-08-04T11:53:24.214+01:00  INFO 52134 --- [teacher] [  restartedMain] m.s.t.teacher.TeacherApplication         : Starting TeacherApplication using Java 21.0.8 with PID 52134 (/Users/ihssanayi/teacher/target/classes started by ihssanayi in /Users/ihssanayi/teacher)
+2025-08-04T11:53:24.214+01:00  INFO 52134 --- [teacher] [  restartedMain] m.s.t.teacher.TeacherApplication         : No active profile set, falling back to 1 default profile: "default"
+2025-08-04T11:53:24.272+01:00  INFO 52134 --- [teacher] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-04T11:53:24.273+01:00  INFO 52134 --- [teacher] [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2025-08-04T11:53:24.318+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-08-04T11:53:24.319+01:00  INFO 52134 --- [teacher] [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-08-04T11:53:24.319+01:00  INFO 52134 --- [teacher] [  restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-08-04T11:53:24.324+01:00  INFO 52134 --- [teacher] [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-08-04T11:53:24.324+01:00  INFO 52134 --- [teacher] [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 109 ms
+2025-08-04T11:53:24.350+01:00  INFO 52134 --- [teacher] [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-04T11:53:24.351+01:00  INFO 52134 --- [teacher] [  restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-08-04T11:53:24.354+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-04T11:53:24.354+01:00  INFO 52134 --- [teacher] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2025-08-04T11:53:24.355+01:00  INFO 52134 --- [teacher] [  restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection conn20: url=jdbc:h2:mem:teacherdb user=SA
+2025-08-04T11:53:24.356+01:00  INFO 52134 --- [teacher] [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2025-08-04T11:53:24.356+01:00  WARN 52134 --- [teacher] [  restartedMain] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-04T11:53:24.356+01:00  INFO 52134 --- [teacher] [  restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-04T11:53:24.364+01:00  INFO 52134 --- [teacher] [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-04T11:53:24.364+01:00  INFO 52134 --- [teacher] [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-04T11:53:24.379+01:00  WARN 52134 --- [teacher] [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-04T11:53:24.411+01:00  WARN 52134 --- [teacher] [  restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: c570b6d3-9046-4f7d-907d-61adad32a74b
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2025-08-04T11:53:24.412+01:00  INFO 52134 --- [teacher] [  restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2025-08-04T11:53:24.445+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:teacherdb'
+2025-08-04T11:53:24.451+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-08-04T11:53:24.455+01:00  INFO 52134 --- [teacher] [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-08-04T11:53:24.457+01:00  INFO 52134 --- [teacher] [  restartedMain] m.s.t.teacher.TeacherApplication         : Started TeacherApplication in 0.253 seconds (process running for 961.867)
+2025-08-04T11:53:24.457+01:00  INFO 52134 --- [teacher] [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2025-08-04T12:22:29.003+01:00  WARN 52134 --- [teacher] [l-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=22m34s493ms).
+2025-08-04T12:37:16.895+01:00  WARN 52134 --- [teacher] [l-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=10m47s866ms).
+2025-08-04T12:48:09.416+01:00  WARN 52134 --- [teacher] [l-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=10m52s521ms).
+2025-08-04T13:04:49.878+01:00  WARN 52134 --- [teacher] [l-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=2m40s411ms).
+2025-08-04T13:51:36.333+01:00  WARN 52134 --- [teacher] [l-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=20m16s331ms).
+2025-08-04T13:54:03.511+01:00  INFO 52134 --- [teacher] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-04T13:54:03.512+01:00  INFO 52134 --- [teacher] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-08-04T13:54:03.514+01:00  INFO 52134 --- [teacher] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  03:14 h
+[INFO] Finished at: 2025-08-04T13:58:11+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.5.4:run (default-cli) on project teacher: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
