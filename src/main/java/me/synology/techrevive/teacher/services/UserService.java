@@ -50,16 +50,13 @@ public class UserService {
         }
     }
     
-    public UserResponse createUserFromToken(String accessToken) {
+    public UserResponse createUserFromToken(String accessToken, String username) {
         try {
             GoogleIdToken idToken = verifier.verify(accessToken);
             if (idToken != null) {
                 GoogleIdToken.Payload payload = idToken.getPayload();
                 
                 String googleId = payload.getSubject();
-                String email = payload.getEmail();
-                String name = (String) payload.get("name");
-                String pictureUrl = (String) payload.get("picture");
                 
                 // Vérifier si l'utilisateur existe déjà
                 Optional<User> existingUser = userRepository.findByGoogleId(googleId);
@@ -67,8 +64,8 @@ public class UserService {
                     return UserResponse.from(existingUser.get());
                 }
                 
-                // Créer un nouvel utilisateur
-                User newUser = new User(googleId, email, name, pictureUrl);
+                // Créer un nouvel utilisateur avec le username fourni
+                User newUser = new User(googleId, username);
                 User savedUser = userRepository.save(newUser);
                 return UserResponse.from(savedUser);
             }
@@ -78,6 +75,17 @@ public class UserService {
         } catch (Exception e) {
             throw new InvalidTokenException("Error validating Google access token: " + e.getMessage());
         }
+    }
+    
+    public UserResponse updateUsername(String googleId, String username) {
+        Optional<User> userOpt = userRepository.findByGoogleId(googleId);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setUsername(username);
+            User savedUser = userRepository.save(user);
+            return UserResponse.from(savedUser);
+        }
+        throw new NotFoundException("User not found with Google ID: " + googleId);
     }
     
     public boolean validateToken(String accessToken) {

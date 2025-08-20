@@ -1,8 +1,8 @@
 package me.synology.techrevive.teacher.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -18,17 +18,9 @@ public class User {
     @Column(name = "google_id", unique = true, nullable = false)
     private String googleId;
     
-    @NotNull
-    @Email
-    @Column(name = "email", unique = true, nullable = false)
-    private String email;
-    
-    @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
-    
-    @Column(name = "picture_url")
-    private String pictureUrl;
+    @Size(min = 2, max = 50)
+    @Column(name = "username", length = 50)
+    private String username;
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -38,11 +30,9 @@ public class User {
     
     public User() {}
     
-    public User(String googleId, String email, String name, String pictureUrl) {
+    public User(String googleId, String username) {
         this.googleId = googleId;
-        this.email = email;
-        this.name = name;
-        this.pictureUrl = pictureUrl;
+        this.username = username;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -68,28 +58,12 @@ public class User {
         this.googleId = googleId;
     }
     
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
     
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
-    
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
+    public void setUsername(String username) {
+        this.username = username;
     }
     
     public LocalDateTime getCreatedAt() {
