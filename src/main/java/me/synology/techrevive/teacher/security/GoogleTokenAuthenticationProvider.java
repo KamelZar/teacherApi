@@ -37,10 +37,8 @@ public class GoogleTokenAuthenticationProvider implements AuthenticationProvider
             if (idToken != null) {
                 GoogleIdToken.Payload payload = idToken.getPayload();
                 String googleId = payload.getSubject();
-                String email = payload.getEmail();
-                String name = (String) payload.get("name");
                 
-                return new GoogleTokenAuthentication(token, googleId, email, name);
+                return new GoogleTokenAuthentication(token, googleId);
             }
         } catch (Exception e) {
             throw new BadCredentialsException("Invalid Google token", e);

@@ -11,23 +11,17 @@ public class GoogleTokenAuthentication implements Authentication {
     
     private final String token;
     private final String googleId;
-    private final String email;
-    private final String name;
     private boolean authenticated;
     
     public GoogleTokenAuthentication(String token) {
         this.token = token;
         this.googleId = null;
-        this.email = null;
-        this.name = null;
         this.authenticated = false;
     }
     
-    public GoogleTokenAuthentication(String token, String googleId, String email, String name) {
+    public GoogleTokenAuthentication(String token, String googleId) {
         this.token = token;
         this.googleId = googleId;
-        this.email = email;
-        this.name = name;
         this.authenticated = true;
     }
     
@@ -66,15 +60,11 @@ public class GoogleTokenAuthentication implements Authentication {
     
     @Override
     public String getName() {
-        return name != null ? name : email;
+        return googleId;
     }
     
     public String getGoogleId() {
         return googleId;
-    }
-    
-    public String getEmail() {
-        return email;
     }
     
     public String getToken() {
