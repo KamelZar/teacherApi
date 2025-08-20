@@ -35,8 +35,6 @@ public class SecurityConfig {
             )
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/h2-console/**")
-                .ignoringRequestMatchers("/student/**")
-                .ignoringRequestMatchers("/user/**")
             )
             .headers(headers -> headers
                 .frameOptions(frameOptions -> frameOptions.sameOrigin()) // Pour permettre à la console H2 de fonctionner

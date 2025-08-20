@@ -7,6 +7,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import me.synology.techrevive.teacher.entities.User;
 import me.synology.techrevive.teacher.exceptions.InvalidTokenException;
 import me.synology.techrevive.teacher.exceptions.NotFoundException;
+import me.synology.techrevive.teacher.config.GoogleOAuthProperties;
 import me.synology.techrevive.teacher.repositories.UserRepository;
 import me.synology.techrevive.teacher.resources.dto.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,9 @@ public class UserService {
     
     private final GoogleIdTokenVerifier verifier;
     
-    public UserService() {
+    public UserService(GoogleOAuthProperties properties) {
         verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-                .setAudience(Collections.singletonList("YOUR_CLIENT_ID")) // À configurer
+                .setAudience(Collections.singletonList(properties.clientId()))
                 .build();
     }
     

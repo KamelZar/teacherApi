@@ -4,6 +4,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import me.synology.techrevive.teacher.config.GoogleOAuthProperties;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,9 +18,9 @@ public class GoogleTokenAuthenticationProvider implements AuthenticationProvider
     
     private final GoogleIdTokenVerifier verifier;
     
-    public GoogleTokenAuthenticationProvider() {
+    public GoogleTokenAuthenticationProvider(GoogleOAuthProperties properties) {
         verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-                .setAudience(Collections.singletonList("YOUR_CLIENT_ID")) // À configurer
+                .setAudience(Collections.singletonList(properties.clientId()))
                 .build();
     }
     
