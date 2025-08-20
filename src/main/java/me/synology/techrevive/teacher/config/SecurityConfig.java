@@ -15,11 +15,13 @@ public class SecurityConfig {
         http
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/hello").permitAll()
+                .requestMatchers("/something").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers("/h2-console/**")
+                .ignoringRequestMatchers("/something")
             )
             .headers(headers -> headers
                 .frameOptions(frameOptions -> frameOptions.sameOrigin()) // Pour permettre à la console H2 de fonctionner
