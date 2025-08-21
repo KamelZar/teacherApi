@@ -1,5 +1,11 @@
 package me.synology.techrevive.teacher.resources;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import me.synology.techrevive.teacher.resources.dto.UpdateUsernameRequest;
 import me.synology.techrevive.teacher.resources.dto.UserResponse;
@@ -13,13 +19,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "User", description = "User management endpoints")
+@SecurityRequirement(name = "Google OAuth")
 public class UserEndpoint {
     
     @Autowired
     private UserService userService;
     
     @GetMapping
-    public ResponseEntity<UserResponse> getUserFromToken(Authentication authentication) {
+    @Operation(summary = "Get current user", description = "Retrieve current user information from Google access token")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "User found successfully"),
+        @ApiResponse(responseCode = "401", description = "Invalid or missing access token"),
+        @ApiResponse(responseCode = "404", description = "User not found")
+    })
+    public ResponseEntity<UserResponse> getUserFromToken(
+            @Parameter(hidden = true) Authentication authentication) {
         GoogleTokenAuthentication googleAuth = (GoogleTokenAuthentication) authentication;
         String accessToken = googleAuth.getCredentials().toString();
         
@@ -28,8 +43,15 @@ public class UserEndpoint {
     }
     
     @PostMapping
+    @Operation(summary = "Create new user", description = "Create a new user from Google access token with username")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "User created successfully"),
+        @ApiResponse(responseCode = "200", description = "User already exists"),
+        @ApiResponse(responseCode = "401", description = "Invalid or missing access token"),
+        @ApiResponse(responseCode = "400", description = "Invalid username")
+    })
     public ResponseEntity<UserResponse> createUserFromToken(
-            Authentication authentication,
+            @Parameter(hidden = true) Authentication authentication,
             @RequestBody @Valid UpdateUsernameRequest request) {
         GoogleTokenAuthentication googleAuth = (GoogleTokenAuthentication) authentication;
         String accessToken = googleAuth.getCredentials().toString();
@@ -39,8 +61,15 @@ public class UserEndpoint {
     }
     
     @PutMapping("/username")
+    @Operation(summary = "Update username", description = "Update the username for the current user")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Username updated successfully"),
+        @ApiResponse(responseCode = "401", description = "Invalid or missing access token"),
+        @ApiResponse(responseCode = "404", description = "User not found"),
+        @ApiResponse(responseCode = "400", description = "Invalid username")
+    })
     public ResponseEntity<UserResponse> updateUsername(
-            Authentication authentication,
+            @Parameter(hidden = true) Authentication authentication,
             @RequestBody @Valid UpdateUsernameRequest request) {
         
         GoogleTokenAuthentication googleAuth = (GoogleTokenAuthentication) authentication;
