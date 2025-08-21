@@ -14,13 +14,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotNull
-    @Column(name = "google_id", unique = true, nullable = false)
+    @Column(name = "google_id", unique = true)
     private String googleId;
     
     @Size(min = 2, max = 50)
     @Column(name = "username", length = 50)
     private String username;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private UserRole role;
     
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -33,6 +36,22 @@ public class User {
     public User(String googleId, String username) {
         this.googleId = googleId;
         this.username = username;
+        this.role = UserRole.STUDENT; // Par défaut STUDENT
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+    
+    public User(String googleId, String username, UserRole role) {
+        this.googleId = googleId;
+        this.username = username;
+        this.role = role;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+    
+    public User(String username, UserRole role) {
+        this.username = username;
+        this.role = role;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -64,6 +83,14 @@ public class User {
     
     public void setUsername(String username) {
         this.username = username;
+    }
+    
+    public UserRole getRole() {
+        return role;
+    }
+    
+    public void setRole(UserRole role) {
+        this.role = role;
     }
     
     public LocalDateTime getCreatedAt() {

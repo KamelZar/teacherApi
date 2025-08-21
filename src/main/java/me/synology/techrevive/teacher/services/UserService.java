@@ -1,19 +1,14 @@
 package me.synology.techrevive.teacher.services;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
 import me.synology.techrevive.teacher.entities.User;
 import me.synology.techrevive.teacher.exceptions.InvalidTokenException;
 import me.synology.techrevive.teacher.exceptions.NotFoundException;
-import me.synology.techrevive.teacher.config.GoogleOAuthProperties;
 import me.synology.techrevive.teacher.repositories.UserRepository;
 import me.synology.techrevive.teacher.resources.dto.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -22,28 +17,18 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
     
-    private final GoogleIdTokenVerifier verifier;
-    
-    public UserService(GoogleOAuthProperties properties) {
-        verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-                .setAudience(Collections.singletonList(properties.clientId()))
-                .build();
-    }
+    @Autowired
+    private GoogleService googleService;
     
     public UserResponse getUserFromToken(String accessToken) {
         try {
-            GoogleIdToken idToken = verifier.verify(accessToken);
-            if (idToken != null) {
-                GoogleIdToken.Payload payload = idToken.getPayload();
-                String googleId = payload.getSubject();
-                
-                Optional<User> existingUser = userRepository.findByGoogleId(googleId);
-                if (existingUser.isPresent()) {
-                    return UserResponse.from(existingUser.get());
-                }
-                throw new NotFoundException("User not found with Google ID: " + googleId);
+            String googleId = googleService.getGoogleIdFromToken(accessToken);
+            
+            Optional<User> existingUser = userRepository.findByGoogleId(googleId);
+            if (existingUser.isPresent()) {
+                return UserResponse.from(existingUser.get());
             }
-            throw new InvalidTokenException("Invalid Google access token");
+            throw new NotFoundException("User not found with Google ID: " + googleId);
         } catch (NotFoundException | InvalidTokenException e) {
             throw e;
         } catch (Exception e) {
@@ -53,24 +38,18 @@ public class UserService {
     
     public UserResponse createUserFromToken(String accessToken, String username) {
         try {
-            GoogleIdToken idToken = verifier.verify(accessToken);
-            if (idToken != null) {
-                GoogleIdToken.Payload payload = idToken.getPayload();
-                
-                String googleId = payload.getSubject();
-                
-                // Vérifier si l'utilisateur existe déjà
-                Optional<User> existingUser = userRepository.findByGoogleId(googleId);
-                if (existingUser.isPresent()) {
-                    return UserResponse.from(existingUser.get());
-                }
-                
-                // Créer un nouvel utilisateur avec le username fourni
-                User newUser = new User(googleId, username);
-                User savedUser = userRepository.save(newUser);
-                return UserResponse.from(savedUser);
+            String googleId = googleService.getGoogleIdFromToken(accessToken);
+            
+            // Vérifier si l'utilisateur existe déjà
+            Optional<User> existingUser = userRepository.findByGoogleId(googleId);
+            if (existingUser.isPresent()) {
+                return UserResponse.from(existingUser.get());
             }
-            throw new InvalidTokenException("Invalid Google access token");
+            
+            // Créer un nouvel utilisateur avec le username fourni
+            User newUser = new User(googleId, username);
+            User savedUser = userRepository.save(newUser);
+            return UserResponse.from(savedUser);
         } catch (InvalidTokenException e) {
             throw e;
         } catch (Exception e) {
@@ -90,11 +69,10 @@ public class UserService {
     }
     
     public boolean validateToken(String accessToken) {
-        try {
-            GoogleIdToken idToken = verifier.verify(accessToken);
-            return idToken != null;
-        } catch (Exception e) {
-            return false;
-        }
+        return googleService.validateToken(accessToken);
+    }
+    
+    public String getGoogleIdFromToken(String accessToken) {
+        return googleService.getGoogleIdFromToken(accessToken);
     }
 }

@@ -34,4 +34,4 @@ build/
 
 ### Configuration files with sensitive data ###
 src/main/resources/application.properties
-CLAUDE_INSTRUCTIONS.md
+instructions/CLAUDE_INSTRUCTIONS.md

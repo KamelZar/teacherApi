@@ -1,28 +1,18 @@
 package me.synology.techrevive.teacher.security;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
-import me.synology.techrevive.teacher.config.GoogleOAuthProperties;
+import me.synology.techrevive.teacher.services.GoogleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-
 @Component
 public class GoogleTokenAuthenticationProvider implements AuthenticationProvider {
     
-    private final GoogleIdTokenVerifier verifier;
-    
-    public GoogleTokenAuthenticationProvider(GoogleOAuthProperties properties) {
-        verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-                .setAudience(Collections.singletonList(properties.clientId()))
-                .build();
-    }
+    @Autowired
+    private GoogleService googleService;
     
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -34,11 +24,8 @@ public class GoogleTokenAuthenticationProvider implements AuthenticationProvider
         String token = googleAuth.getToken();
         
         try {
-            GoogleIdToken idToken = verifier.verify(token);
-            if (idToken != null) {
-                GoogleIdToken.Payload payload = idToken.getPayload();
-                String googleId = payload.getSubject();
-                
+            if (googleService.validateToken(token)) {
+                String googleId = googleService.getGoogleIdFromToken(token);
                 return new GoogleTokenAuthentication(token, googleId);
             }
         } catch (Exception e) {
