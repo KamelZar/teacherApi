@@ -33,5 +33,6 @@ build/
 .vscode/
 
 ### Configuration files with sensitive data ###
-src/main/resources/application.properties
 instructions/CLAUDE_INSTRUCTIONS.md
+src/main/resources/application.properties
+/src/main/resources/application-docker.properties

@@ -1,0 +1,60 @@
+# version: '3.8'  # Obsolète dans Docker Compose moderne
+
+services:
+  # PostgreSQL Database pour développement
+  postgres-dev:
+    image: postgres:16-alpine
+    container_name: teacherapi-postgres-dev
+    environment:
+      - POSTGRES_DB=teacherdb
+      - POSTGRES_USER=teacher
+      - POSTGRES_PASSWORD=teacherpass123
+      - POSTGRES_INITDB_ARGS=--encoding=UTF8 --locale=C
+    ports:
+      - "5433:5432"  # Port 5433 pour éviter conflit avec PostgreSQL local
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./src/main/resources/data.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./docker/postgres/init-dev.sql:/docker-entrypoint-initdb.d/02-dev-data.sql:ro
+    networks:
+      - teacher-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U teacher -d teacherdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # pgAdmin pour interface graphique (optionnel)
+  pgadmin:
+    image: dpage/pgadmin4:8.2
+    container_name: teacherapi-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+      - PGADMIN_CONFIG_SERVER_MODE=False
+      - PGADMIN_LISTEN_PORT=80
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - teacher-network
+    depends_on:
+      postgres-dev:
+        condition: service_healthy
+    restart: unless-stopped
+    user: root
+    profiles:
+      - admin  # Démarrer avec: docker-compose --profile admin up
+
+volumes:
+  postgres_dev_data:
+    name: teacherapi_postgres_dev_data
+  pgadmin_data:
+    name: teacherapi_pgadmin_data
+
+networks:
+  teacher-network:
+    name: teacherapi-network
+    driver: bridge
