@@ -5,35 +5,39 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
-public class User {
+@Table(name = "evaluations")
+public class EvaluationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "google_id")
-    private String googleId;
-
-    private String email;
-
     private String name;
 
-    @Column(name = "picture_url")
-    private String pictureUrl;
+    @Column(name = "max_points")
+    private BigDecimal maxPoints;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
+
+    @Column(name = "evaluation_date")
+    private LocalDate evaluationDate;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
 }
