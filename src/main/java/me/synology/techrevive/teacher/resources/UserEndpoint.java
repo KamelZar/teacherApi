@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import me.synology.techrevive.teacher.resources.dto.UpdateUsernameRequest;
 import me.synology.techrevive.teacher.resources.dto.UserResponse;
-import me.synology.techrevive.teacher.security.GoogleTokenAuthentication;
+import me.synology.techrevive.teacher.security.JwtAuthentication;
 import me.synology.techrevive.teacher.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,8 +35,8 @@ public class UserEndpoint {
     })
     public ResponseEntity<UserResponse> getUserFromToken(
             @Parameter(hidden = true) Authentication authentication) {
-        GoogleTokenAuthentication googleAuth = (GoogleTokenAuthentication) authentication;
-        String accessToken = googleAuth.getCredentials().toString();
+        JwtAuthentication jwtAuth = (JwtAuthentication) authentication;
+        String accessToken = jwtAuth.getCredentials().toString();
         
         UserResponse user = userService.getUserFromToken(accessToken);
         return ResponseEntity.ok(user);
@@ -53,8 +53,8 @@ public class UserEndpoint {
     public ResponseEntity<UserResponse> createUserFromToken(
             @Parameter(hidden = true) Authentication authentication,
             @RequestBody @Valid UpdateUsernameRequest request) {
-        GoogleTokenAuthentication googleAuth = (GoogleTokenAuthentication) authentication;
-        String accessToken = googleAuth.getCredentials().toString();
+        JwtAuthentication jwtAuth = (JwtAuthentication) authentication;
+        String accessToken = jwtAuth.getCredentials().toString();
         
         UserResponse user = userService.createUserFromToken(accessToken, request.username());
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
@@ -72,10 +72,10 @@ public class UserEndpoint {
             @Parameter(hidden = true) Authentication authentication,
             @RequestBody @Valid UpdateUsernameRequest request) {
         
-        GoogleTokenAuthentication googleAuth = (GoogleTokenAuthentication) authentication;
-        String googleId = googleAuth.getGoogleId();
+        JwtAuthentication jwtAuth = (JwtAuthentication) authentication;
+        Long userId = jwtAuth.getUserId();
         
-        UserResponse updatedUser = userService.updateUsername(googleId, request.username());
+        UserResponse updatedUser = userService.updateUsernameById(userId, request.username());
         return ResponseEntity.ok(updatedUser);
     }
 }

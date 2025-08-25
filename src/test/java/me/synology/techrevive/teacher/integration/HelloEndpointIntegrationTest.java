@@ -2,44 +2,42 @@ package me.synology.techrevive.teacher.integration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class HelloEndpointIntegrationTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private TestRestTemplate restTemplate;
 
     @Test
-    public void shouldReturnHelloWorldWhenCallGetHello() throws Exception {
-        mockMvc.perform(get("/hello"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("Hello World"));
+    public void shouldReturnHelloWorldWhenCallGetHello() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/hello", String.class);
+        
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("Hello World", response.getBody());
     }
 
     @Test
-    public void shouldReturnHelloWorldWithCorrectContentType() throws Exception {
-        mockMvc.perform(get("/hello"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/plain;charset=UTF-8"))
-                .andExpect(content().string("Hello World"));
+    public void shouldReturnHelloWorldWithCorrectContentType() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/hello", String.class);
+        
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("text/plain;charset=UTF-8", response.getHeaders().getContentType().toString());
+        assertEquals("Hello World", response.getBody());
     }
 
     @Test
-    public void shouldAllowGetRequestWithoutAuthentication() throws Exception {
-        mockMvc.perform(get("/hello"))
-                .andDo(print())
-                .andExpect(status().isOk());
+    public void shouldAllowGetRequestWithoutAuthentication() {
+        ResponseEntity<String> response = restTemplate.getForEntity("/hello", String.class);
+        
+        assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 }

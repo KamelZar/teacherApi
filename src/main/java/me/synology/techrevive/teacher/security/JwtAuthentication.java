@@ -1,5 +1,6 @@
 package me.synology.techrevive.teacher.security;
 
+import me.synology.techrevive.teacher.entities.UserRole;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,28 +8,34 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.Collection;
 import java.util.Collections;
 
-public class GoogleTokenAuthentication implements Authentication {
+public class JwtAuthentication implements Authentication {
     
     private final String token;
-    private final String googleId;
+    private final Long userId;
+    private final String email;
+    private final UserRole role;
     private boolean authenticated;
     
-    public GoogleTokenAuthentication(String token) {
+    public JwtAuthentication(String token) {
         this.token = token;
-        this.googleId = null;
+        this.userId = null;
+        this.email = null;
+        this.role = null;
         this.authenticated = false;
     }
     
-    public GoogleTokenAuthentication(String token, String googleId) {
+    public JwtAuthentication(String token, Long userId, String email, UserRole role) {
         this.token = token;
-        this.googleId = googleId;
+        this.userId = userId;
+        this.email = email;
+        this.role = role;
         this.authenticated = true;
     }
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (authenticated) {
-            return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        if (authenticated && role != null) {
+            return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.name()));
         }
         return Collections.emptyList();
     }
@@ -45,7 +52,7 @@ public class GoogleTokenAuthentication implements Authentication {
     
     @Override
     public Object getPrincipal() {
-        return googleId;
+        return email;
     }
     
     @Override
@@ -60,14 +67,22 @@ public class GoogleTokenAuthentication implements Authentication {
     
     @Override
     public String getName() {
-        return googleId;
-    }
-    
-    public String getGoogleId() {
-        return googleId;
+        return email;
     }
     
     public String getToken() {
         return token;
+    }
+    
+    public Long getUserId() {
+        return userId;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public UserRole getRole() {
+        return role;
     }
 }

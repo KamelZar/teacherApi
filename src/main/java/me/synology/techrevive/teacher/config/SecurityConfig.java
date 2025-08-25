@@ -1,7 +1,7 @@
 package me.synology.techrevive.teacher.config;
 
-import me.synology.techrevive.teacher.security.GoogleTokenAuthenticationFilter;
-import me.synology.techrevive.teacher.security.GoogleTokenAuthenticationProvider;
+import me.synology.techrevive.teacher.security.JwtAuthenticationFilter;
+import me.synology.techrevive.teacher.security.JwtAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,29 +18,30 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     
     @Autowired
-    private GoogleTokenAuthenticationProvider googleTokenAuthenticationProvider;
+    private JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
-        GoogleTokenAuthenticationFilter googleTokenFilter = new GoogleTokenAuthenticationFilter(authenticationManager);
+        JwtAuthenticationFilter jwtFilter = new JwtAuthenticationFilter(authenticationManager);
         
         http
-            .authenticationProvider(googleTokenAuthenticationProvider)
+            .authenticationProvider(jwtAuthenticationProvider)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/hello").permitAll()
+                .requestMatchers("/auth/**").permitAll() // Endpoints d'authentification publics
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
-                .requestMatchers("/student/**", "/user/**").authenticated()
-                .anyRequest().authenticated()
+                .requestMatchers("/swagger-ui/**").permitAll()
+                .anyRequest().authenticated() // Toutes les autres routes nécessitent un JWT
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/h2-console/**")
+                .ignoringRequestMatchers("/h2-console/**", "/auth/**")
             )
             .headers(headers -> headers
                 .frameOptions(frameOptions -> frameOptions.sameOrigin()) // Pour permettre à la console H2 de fonctionner
             )
-            .addFilterBefore(googleTokenFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         
         return http.build();
     }

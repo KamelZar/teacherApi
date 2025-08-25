@@ -1,7 +1,9 @@
 package me.synology.techrevive.teacher.services;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import me.synology.techrevive.teacher.entities.AuthProvider;
 import me.synology.techrevive.teacher.entities.User;
+import me.synology.techrevive.teacher.entities.UserRole;
 import me.synology.techrevive.teacher.exceptions.InvalidTokenException;
 import me.synology.techrevive.teacher.exceptions.NotFoundException;
 import me.synology.techrevive.teacher.repositories.UserRepository;
@@ -9,6 +11,7 @@ import me.synology.techrevive.teacher.resources.dto.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -73,6 +76,67 @@ public class UserService {
     
     public boolean validateToken(String accessToken) {
         return googleService.validateToken(accessToken);
+    }
+    
+    /**
+     * Trouve ou crée un utilisateur à partir des infos Google
+     */
+    public User findOrCreateUser(String googleId, String email, String name, String pictureUrl) {
+        Optional<User> existingUser = userRepository.findByGoogleId(googleId);
+        
+        if (existingUser.isPresent()) {
+            // Utilisateur existant - mettre à jour les infos si nécessaire
+            User user = existingUser.get();
+            boolean needsUpdate = false;
+            
+            if (!email.equals(user.getEmail())) {
+                user.setEmail(email);
+                needsUpdate = true;
+            }
+            if (!name.equals(user.getName())) {
+                user.setName(name);
+                needsUpdate = true;
+            }
+            if (pictureUrl != null && !pictureUrl.equals(user.getPictureUrl())) {
+                user.setPictureUrl(pictureUrl);
+                needsUpdate = true;
+            }
+            
+            if (needsUpdate) {
+                user.setUpdatedAt(LocalDateTime.now());
+                return userRepository.save(user);
+            }
+            
+            return user;
+        } else {
+            // Nouvel utilisateur
+            User newUser = new User();
+            newUser.setGoogleId(googleId);
+            newUser.setEmail(email);
+            newUser.setName(name);
+            newUser.setPictureUrl(pictureUrl);
+            newUser.setRole(UserRole.STUDENT); // Rôle par défaut
+            newUser.setAuthProvider(AuthProvider.GOOGLE); // Provider Google
+            newUser.setCreatedAt(LocalDateTime.now());
+            newUser.setUpdatedAt(LocalDateTime.now());
+            
+            return userRepository.save(newUser);
+        }
+    }
+    
+    /**
+     * Met à jour le nom d'utilisateur par ID
+     */
+    public UserResponse updateUsernameById(Long userId, String username) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setName(username);
+            user.setUpdatedAt(LocalDateTime.now());
+            User savedUser = userRepository.save(user);
+            return UserResponse.from(savedUser);
+        }
+        throw new NotFoundException("User not found with ID: " + userId);
     }
     
     public String getGoogleIdFromToken(String accessToken) {

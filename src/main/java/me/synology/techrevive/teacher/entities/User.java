@@ -31,6 +31,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth_provider", nullable = false)
+    private AuthProvider authProvider;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
