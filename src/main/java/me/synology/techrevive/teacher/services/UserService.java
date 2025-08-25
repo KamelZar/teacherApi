@@ -46,8 +46,11 @@ public class UserService {
                 return UserResponse.from(existingUser.get());
             }
             
-            // Créer un nouvel utilisateur avec le username fourni
-            User newUser = new User(googleId, username);
+            // Créer un nouvel utilisateur 
+            User newUser = new User();
+            newUser.setGoogleId(googleId);
+            newUser.setName(username);  // name au lieu de username
+            newUser.setRole(me.synology.techrevive.teacher.entities.UserRole.STUDENT); // rôle par défaut
             User savedUser = userRepository.save(newUser);
             return UserResponse.from(savedUser);
         } catch (InvalidTokenException e) {
@@ -61,7 +64,7 @@ public class UserService {
         Optional<User> userOpt = userRepository.findByGoogleId(googleId);
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            user.setUsername(username);
+            user.setName(username);
             User savedUser = userRepository.save(user);
             return UserResponse.from(savedUser);
         }

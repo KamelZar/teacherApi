@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,4 +31,14 @@ public class ClassEntity {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    // Relations JPA pour simplifier les requêtes
+    @OneToMany(mappedBy = "classId", fetch = FetchType.LAZY)
+    private List<ClassTeacher> classTeachers;
+
+    @OneToMany(mappedBy = "classId", fetch = FetchType.LAZY)  
+    private List<ClassStudent> classStudents;
+
+    @OneToMany(mappedBy = "classEntity", fetch = FetchType.LAZY)
+    private List<Subject> subjects;
 }

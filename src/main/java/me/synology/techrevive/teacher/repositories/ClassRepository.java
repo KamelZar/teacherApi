@@ -2,8 +2,6 @@ package me.synology.techrevive.teacher.repositories;
 
 import me.synology.techrevive.teacher.entities.ClassEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,16 +10,26 @@ import java.util.Optional;
 @Repository
 public interface ClassRepository extends JpaRepository<ClassEntity, Long> {
     
+    // ✅ Méthodes automatiques JPA - simples et efficaces
+    
+    // Trouver par année scolaire
     List<ClassEntity> findBySchoolYear(Integer schoolYear);
     
-    @Query("SELECT c FROM ClassEntity c JOIN ClassTeacher ct ON c.id = ct.classId WHERE ct.teacherId = :teacherId")
-    List<ClassEntity> findClassesByTeacherId(@Param("teacherId") Long teacherId);
+    // Trouver par nom et année (contrainte unique)
+    Optional<ClassEntity> findByNameAndSchoolYear(String name, Integer schoolYear);
     
-    @Query("SELECT c FROM ClassEntity c JOIN ClassStudent cs ON c.id = cs.classId WHERE cs.studentId = :studentId")
-    List<ClassEntity> findClassesByStudentId(@Param("studentId") Long studentId);
-    
-    @Query("SELECT c FROM ClassEntity c JOIN ClassTeacher ct ON c.id = ct.classId WHERE ct.teacherId = :teacherId AND ct.isMainTeacher = true")
-    List<ClassEntity> findClassesByMainTeacherId(@Param("teacherId") Long teacherId);
-    
+    // Vérifier existence par nom et année
     boolean existsByNameAndSchoolYear(String name, Integer schoolYear);
+    
+    // Trouver par nom (toutes années confondues)
+    List<ClassEntity> findByName(String name);
+    
+    // Trouver par nom contenant (recherche)
+    List<ClassEntity> findByNameContainingIgnoreCase(String namePart);
+    
+    // Trouver par description contenant
+    List<ClassEntity> findByDescriptionContainingIgnoreCase(String descriptionPart);
+    
+    // Pour les relations avec professeurs/élèves, utiliser les services
+    // qui combineront ClassRepository + ClassTeacherRepository + ClassStudentRepository
 }

@@ -39,6 +39,3 @@ public class Remark {
     private LocalDateTime createdAt;
 }
 
-enum RemarkType {
-    BEHAVIOR, PROGRESS, EFFORT, PARTICIPATION, HOMEWORK, ATTENDANCE, GENERAL
-}

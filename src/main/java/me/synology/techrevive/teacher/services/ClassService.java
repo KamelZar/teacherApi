@@ -1,9 +1,13 @@
 package me.synology.techrevive.teacher.services;
 
 import me.synology.techrevive.teacher.entities.ClassEntity;
+import me.synology.techrevive.teacher.entities.ClassStudent;
+import me.synology.techrevive.teacher.entities.ClassTeacher;
 import me.synology.techrevive.teacher.entities.User;
 import me.synology.techrevive.teacher.exceptions.NotFoundException;
 import me.synology.techrevive.teacher.repositories.ClassRepository;
+import me.synology.techrevive.teacher.repositories.ClassStudentRepository;
+import me.synology.techrevive.teacher.repositories.ClassTeacherRepository;
 import me.synology.techrevive.teacher.repositories.UserRepository;
 import me.synology.techrevive.teacher.services.dto.ClassData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,12 @@ public class ClassService {
     
     @Autowired
     private ClassRepository classRepository;
+
+    @Autowired
+    private ClassTeacherRepository classTeacherRepository;
+
+    @Autowired
+    private ClassStudentRepository classStudentRepository;
     
     @Autowired
     private UserRepository userRepository;
@@ -48,8 +58,16 @@ public class ClassService {
     public List<ClassData> getClassesByTeacher(String googleId) {
         User teacher = userRepository.findByGoogleId(googleId)
                 .orElseThrow(() -> new NotFoundException("Teacher not found with Google ID: " + googleId));
+
+        // Récupérer les relations classe-professeur
+        List<ClassTeacher> teacherRelations = classTeacherRepository.findByTeacherId(teacher.getId());
         
-        List<ClassEntity> classes = classRepository.findClassesByTeacherId(teacher.getId());
+        // Extraire les IDs des classes et récupérer les entités
+        List<Long> classIds = teacherRelations.stream()
+                .map(ClassTeacher::getClassId)
+                .toList();
+        
+        List<ClassEntity> classes = classRepository.findAllById(classIds);
         
         return classes.stream()
                 .map(ClassData::from)
@@ -64,8 +82,8 @@ public class ClassService {
         ClassEntity classEntity = classRepository.findById(classId)
                 .orElseThrow(() -> new NotFoundException("Class not found with ID: " + classId));
         
-        List<ClassEntity> userClasses = classRepository.findClassesByTeacherId(user.getId());
-        boolean hasAccess = userClasses.stream().anyMatch(c -> c.getId().equals(classId));
+        List<ClassTeacher> userRelations = classTeacherRepository.findByTeacherId(user.getId());
+        boolean hasAccess = userRelations.stream().anyMatch(ct -> ct.getClassId().equals(classId));
         
         if (!hasAccess) {
             throw new IllegalAccessError("Access denied to class ID: " + classId);
@@ -79,7 +97,11 @@ public class ClassService {
         User student = userRepository.findByGoogleId(googleId)
                 .orElseThrow(() -> new NotFoundException("Student not found with Google ID: " + googleId));
         
-        List<ClassEntity> classes = classRepository.findClassesByStudentId(student.getId());
+        List<ClassStudent> studentRelations = classStudentRepository.findByStudentId(student.getId());
+        List<Long> classIds = studentRelations.stream()
+                .map(ClassStudent::getClassId)
+                .toList();
+        List<ClassEntity> classes = classRepository.findAllById(classIds);
         
         return classes.stream()
                 .map(ClassData::from)
@@ -103,8 +125,8 @@ public class ClassService {
         ClassEntity classEntity = classRepository.findById(classId)
                 .orElseThrow(() -> new NotFoundException("Class not found with ID: " + classId));
         
-        List<ClassEntity> teacherClasses = classRepository.findClassesByTeacherId(teacher.getId());
-        boolean hasAccess = teacherClasses.stream().anyMatch(c -> c.getId().equals(classId));
+        List<ClassTeacher> teacherRelations = classTeacherRepository.findByTeacherId(teacher.getId());
+        boolean hasAccess = teacherRelations.stream().anyMatch(ct -> ct.getClassId().equals(classId));
         
         if (!hasAccess) {
             throw new IllegalAccessError("Access denied to modify class ID: " + classId);
