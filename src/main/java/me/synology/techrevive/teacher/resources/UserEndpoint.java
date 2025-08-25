@@ -27,18 +27,33 @@ public class UserEndpoint {
     private UserService userService;
     
     @GetMapping
-    @Operation(summary = "Get current user", description = "Retrieve current user information from Google access token")
+    @Operation(summary = "Get current user", description = "Retrieve current user information from JWT token")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "User found successfully"),
-        @ApiResponse(responseCode = "401", description = "Invalid or missing access token"),
+        @ApiResponse(responseCode = "401", description = "Invalid or missing JWT token"),
         @ApiResponse(responseCode = "404", description = "User not found")
     })
-    public ResponseEntity<UserResponse> getUserFromToken(
+    public ResponseEntity<UserResponse> getCurrentUser(
             @Parameter(hidden = true) Authentication authentication) {
         JwtAuthentication jwtAuth = (JwtAuthentication) authentication;
-        String accessToken = jwtAuth.getCredentials().toString();
         
-        UserResponse user = userService.getUserFromToken(accessToken);
+        // Pour l'easter egg (userId 999), créer une réponse directement
+        if (jwtAuth.getUserId() == 999L) {
+            UserResponse demoUser = new UserResponse(
+                    999L,
+                    "demo@teacher.app",
+                    "Demo Teacher",
+                    me.synology.techrevive.teacher.entities.UserRole.TEACHER,
+                    "https://via.placeholder.com/100x100?text=Demo",
+                    java.time.LocalDateTime.now(),
+                    java.time.LocalDateTime.now()
+            );
+            return ResponseEntity.ok(demoUser);
+        }
+        
+        // Pour les vrais utilisateurs, utiliser l'ID depuis le JWT
+        Long userId = jwtAuth.getUserId();
+        UserResponse user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
     }
     

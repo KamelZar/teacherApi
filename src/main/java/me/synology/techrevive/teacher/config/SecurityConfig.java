@@ -28,7 +28,7 @@ public class SecurityConfig {
             .authenticationProvider(jwtAuthenticationProvider)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/hello").permitAll()
+                .requestMatchers("/hello/**").permitAll() // Easter egg endpoints publics
                 .requestMatchers("/auth/**").permitAll() // Endpoints d'authentification publics
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()

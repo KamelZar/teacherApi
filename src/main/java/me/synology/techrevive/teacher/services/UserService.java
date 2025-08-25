@@ -142,4 +142,15 @@ public class UserService {
     public String getGoogleIdFromToken(String accessToken) {
         return googleService.getGoogleIdFromToken(accessToken);
     }
+    
+    /**
+     * Récupère un utilisateur par son ID
+     */
+    public UserResponse getUserById(Long userId) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isPresent()) {
+            return UserResponse.from(userOpt.get());
+        }
+        throw new NotFoundException("User not found with ID: " + userId);
+    }
 }
